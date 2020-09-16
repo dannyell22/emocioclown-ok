@@ -1,0 +1,49 @@
+{% extends 'APPWEB/plantilla-base.html' %}
+{% load static %}
+{% block content %}
+
+
+<section class="hero-wrap hero-wrap-2 talleres" style="background-image:url('{% static 'img/background/bg-taller.png' %}')" data-stellar-background-ratio="0.5">
+<div class="overlay"></div>
+<div class="container">
+	<div class="row no-gutters slider-text align-items-end justify-content-start">
+		<div class="col-md-9 ftco-animate pb-4">
+			<img src="{% static 'img/background/bg-logoTaller.png' %}" alt="EmocioCampamento"/>
+			<h1 class="mb-3 bread"></h1>
+		</div>
+	</div>
+</div>
+</section>
+<section class="ftco-section">
+<div class="container">
+	<div class="row">
+		<div class="col-md-12 room-wrap">
+			<div class="row">
+				<div class="col-md-7 d-flex ftco-animate">
+					<div class="img align-self-stretch" style="background-image:url('{% static taller.imagen.url  %}');"></div>
+				</div>
+				<div class="col-md-5 ftco-animate bg-light">
+					<div class="tall text py-5 px-4">
+						<h3>{{taller.titulo}}</h3>
+						<p>{{taller.descripcion}}</p>
+						<div class="px-5">
+							<h5 class="mb-0">Modalidad</h5><p>{{taller.modalidad}}</p>
+						</div>
+						<div class="block-23">
+							<ul>
+							  <li><h3>Más información</h3></li>
+							  <li><a href="{{taller.wasap}}"  target="_blank" ><span class="icon icon-whatsapp"></span><span class="text taller">Unirse al grupo de WhatsApp</span></a></li> <!-- {{contactoInfo.telefono}}-->
+							  <li><a href="mailto: {{contactoInfo.email}} "><span class="icon icon-envelope"></span><span class="text taller"> {{contactoInfo.email}}</span></a></li>
+							</ul>
+						  </div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+
+</section> 
+
+
+{% endblock content %}

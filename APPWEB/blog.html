@@ -1,0 +1,79 @@
+{% extends 'APPWEB/plantilla-base.html' %}
+{% load static %}
+{% block content %}
+
+<section class="hero-wrap hero-wrap-2" style="background-image: url('{% static 'img/background/bg-blog.png' %}');"
+  data-stellar-background-ratio="0.5">
+  <div class="overlay"></div>
+  <div class="container">
+    <div class="row no-gutters slider-text align-items-end justify-content-start">
+      <div class="col-md-9 ftco-animate pb-4">
+        <img src="{% static 'img/background/bg-logoBlog.png' %}" alt="EmocioBlog" />
+        <h1 class="mb-3 bread"></h1>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!--RESUMEN BLOG-->
+<section class="ftco-section">
+  <div class="container">
+    <div class="row d-flex">
+      {% for blog in blogs %}
+      <div class="col-md-6 col-lg-4 d-flex ftco-animate">
+        <div class="blog-entry justify-content-end">
+          <a href="{% url 'appweb:singleBlog' blog.id %}" class="block-20"
+            style="background-image: url('{% static blog.imagen.url %}');">
+          </a>
+          <div class="text float-right d-block">
+            <div class="d-flex align-items-center pt-2 mb-4 topp">
+              <div class="one mr-2">
+                <span class="day">{{blog.fecha|date:"d"}}</span>
+              </div>
+              <div class="two">
+                <span class="mos">{{blog.fecha|date:"F"}}</span>
+                <span class="yr">{{blog.fecha|date:"Y"}}</span>
+              </div>
+            </div>
+            <h3 class="heading">{{blog.titulo}}</h3>
+            <p>{{blog.descripcion|truncatechars:100}}</p>
+            <div class="d-flex align-items-center mt-4 meta">
+              <p class="mb-0"><a href="{% url 'appweb:singleBlog' blog.id %}" class="btn btn-primary">Leer más</a></p>
+            </div>
+          </div>
+        </div>
+      </div>
+      {% endfor %}
+    </div>
+
+    <div class="row mt-5">
+      <div class="col text-center">
+        <div class="block-27">
+          {% if is_paginated %}
+          <ul>
+            {% if page_obj.has_previous %}
+            <li><a href="?page={{ page_obj.previous_page_number }}">&lt;</a></li>
+            {% else %}
+            <li class="disabled"><span>&laquo;</span></li>
+            {% endif %}
+            {% for i in paginator.page_range %}
+            {% if page_obj.number == i %}
+            <li class="active"><span>{{ i }}</span></li>
+            {% else %}
+            <li><a href="?page={{ i }}">{{ i }}</a></li>
+            {% endif %}
+            {% endfor %}
+            {% if page_obj.has_next %}
+            <li><a href="?page={{ page_obj.next_page_number }}">&gt;</a></li>
+            {% else %}
+            <li class="disabled"><span>&raquo;</span></li>
+            {% endif %}
+          </ul>
+          {% endif %}
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+{% endblock content %}

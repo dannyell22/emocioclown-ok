@@ -1,0 +1,419 @@
+{% extends 'APPWEB/plantilla-base.html' %}
+{% load static %}
+{% block content %}
+
+<body data-spy="scroll" data-target=".site-navbar-target" data-offset="300">
+
+	<!-- INICIO -->
+
+	<section id="home-section" class="hero">
+		<img src="{% static 'img/background/blob-shape-3.svg' %}" class="svg-blob" alt="Burbuja">
+		<div class="home-slider owl-carousel">
+			<div class="slider-item">
+				<div class="overlay"></div>
+				<div class="container-fluid p-0">
+					<div class="row d-md-flex no-gutters slider-text align-items-center justify-content-end"
+						data-scrollax-parent="true">
+						<div class="one-third order-md-last">
+							<div class="img" style="background-image:url({{MEDIA_URL}}{{emocioclown.imagen}});">
+								<div class="overlay"></div>
+							</div>
+							<div class="bg-primary">
+								<div class="vr"><span class="pl-3 py-4"
+										style="background-image: url(static/img/personal/tizas_s.jpg);">nosotros</span>
+								</div>
+							</div>
+						</div>
+						<div class="one-forth d-flex align-items-center ftco-animate"data-scrollax=" properties: { translateY: '70%' }">
+							<div class="text">
+								<img src="static/img/personal/logo.svg" alt="logo emocioclown" id="logo">
+								<span class="subheading pl-5">Acerca de Nosotros</span>
+								<p>{{emocioclown.descripcion}}</p>
+								{% if emocioclown.link %}
+								<p><a href="{{emocioclown.link}}" target="_blank" class="btn btn-primary px-5 py-3 mt-3">Más información</a></p>
+								{% endif %}
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+
+			<div class="slider-item">
+				<div class="overlay"></div>
+				<div class="container-fluid p-0">
+					<div class="row d-flex no-gutters slider-text align-items-center justify-content-end"
+						data-scrollax-parent="true">
+						<div class="one-third order-md-last">
+							<div class="img" style="background-image: url({{MEDIA_URL}}{{monica.imagen}})">
+								<div class="overlay"></div>
+							</div>
+							<div class="bg-primary">
+								<div class="vr"><span class="pl-3 py-4"
+										style="background-image: url(static/img/personal/tizas_s.jpg);">mónica</span>
+								</div>
+							</div>
+						</div>
+						<div class="one-forth d-flex align-items-center ftco-animate"
+							data-scrollax=" properties: { translateY: '70%' }">
+							<div class="text">
+								<h1 class="mb-0 mt-3">MÓNICA VILLACRESES</span></h1>
+								<span class="subheading pl-5">Acerca de mi</span>
+								<p>{{monica.descripcion}}</p>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</section>
+
+	<!-- TALLERES -->
+
+	<section class="ftco-section talleres-section" id="talleres">
+		<div class="container">
+			<div class="row justify-content-center pb-5">
+				<div class="col-md-7 heading-section text-center ftco-animate">
+					<h2>TALLERES</h2>
+				</div>
+			</div>
+			<div class="row d-flex">
+				{% for taller in talleres|slice:":3" %}
+				<div class="col-md-6 col-lg d-flex ftco-animate">
+					<div class="project">
+						<div class="img d-flex">
+							<img src="{{MEDIA_URL}}{{taller.imagen}}" class="img-fluid" alt="imagen explicativa">
+						</div>
+						<div class="text">
+							<h3>{{taller.titulo}}</h3>
+							<p>{{taller.descripcion|truncatechars:100}}</p>
+							<p class="mb-0"><a href="{% url 'appweb:taller' taller.id %}" class="btn btn-primary">Más información</a></p>
+						</div>
+						<a href="{% static taller.imagen.url  %}"
+							class="icon image-popup d-flex justify-content-center align-items-center">
+							<span class="icon-expand"></span>
+						</a>
+					</div>
+				</div>
+				{% endfor %}
+			</div>
+		</div>
+	</section>
+
+	<!-- EVENTOS Y ACTIVIDADES -->
+
+	<section class="ftco-section activity-section" id="actividad">
+		<div class="container">
+			<div class="row justify-content-center pb-5">
+				<div class="col-md-7 heading-section text-center ftco-animate">
+					<h2>EVENTOS & ACTIVIDADES</h2>
+				</div>
+			</div>
+			<div id="multi-item" class="carousel slide carousel-multi-item">
+				<div class="carousel-inner" role="listbox">
+					{% for evento in eventos %}
+					{% cycle 'start' '' '' as slidestart silent %}
+					{% cycle '' '' 'end' as slidend silent %}
+					{% if slidestart %}
+					<div class="carousel-item {% if forloop.first %} active {% endif %}">
+						<div class="row d-flex">
+							{% endif %}
+							<div class="col-md-6 col-lg-4 d-flex ftco-animate">
+								<div class="project">
+									<div class="img d-flex">
+										<img src="{{MEDIA_URL}}{{evento.imagen}}" class="img-fluid " alt="Imagen Explicativa">
+									</div>
+									<div class="text float-right d-block">
+										<h3 class="heading">{{evento.titulo}}</h3>
+										<p>{{evento.descripcion|truncatechars:100}}</p>
+										<div class="d-flex align-items-center mt-4 meta">
+											<p class="mb-0">
+												<a href="{% url 'appweb:evento' evento.id %}" class="btn btn-primary">Más información
+												</a>
+											</p>
+										</div>
+									</div>
+									<a href="{% static evento.imagen.url  %}" class="icon image-popup d-flex justify-content-center align-items-center">
+										<span class="icon-expand"></span>
+									</a>
+								</div>
+							</div>
+							{% if forloop.last or slidend %}
+						</div>
+					</div>
+					{% endif %}
+					{% endfor %}
+				</div>
+				<div class="row mt-5">
+					<div class="col text-center">
+						<div class="mt-5">
+							<ul class="carousel-indicators">
+								{% for s in numSlidesArray %}
+								<li data-target="#multi-item" data-slide-to="{{s}}"
+									class="{% if forloop.first %} active {% endif %}"><span>{{ forloop.counter }}</span>
+								</li>
+								{% endfor %}
+							</ul>
+						</div>
+					</div>
+				</div>
+			</div>
+	</section>
+
+	<!-- CAMPAMENTO -->
+
+	<section class="ftco-section camp-section" id="campamento">
+		<div class="container">
+			<div class="row justify-content-center pb-5">
+				<div class="col-md-7 heading-section text-center ftco-animate">
+					<h2>CAMPAMENTOS</h2>
+				</div>
+			</div>
+			<div id="multi-item2" class="carousel slide carousel-multi-item">
+				<div class="carousel-inner" role="listbox">
+					{% for campamento in campamentos %}
+					{% cycle 'start' '' '' as slidestart silent %}
+					{% cycle '' '' 'end' as slidend silent %}
+					{% if slidestart %}
+					<div class="carousel-item {% if forloop.first %} active {% endif %}">
+						<div class="row d-flex">
+							{% endif %}
+							<div class="col-md-6 col-lg-4 d-flex ftco-animate">
+								<div class="project">
+									<div class="img d-flex">
+										<img src="{{MEDIA_URL}}{{campamento.imagen}}" class="img-fluid" alt="Imagen Explicativa">
+									</div>
+									<div class="text float-right d-block">
+										<h3 class="heading">{{campamento.nombre}}</h3>
+										<p>{{campamento.descripcion|truncatechars:100}}</p>
+										<div class="d-flex align-items-center mt-4 meta">
+											<p class="mb-0">
+												<a href="{% url 'appweb:campamento' campamento.id %}" class="btn btn-primary">Más información
+												</a>
+											</p>
+										</div>
+									</div>
+									<a href="{% static campamento.imagen.url  %}" class="icon image-popup d-flex justify-content-center align-items-center">
+										<span class="icon-expand"></span>
+									</a>
+								</div>
+							</div>
+							{% if forloop.last or slidend %}
+						</div>
+					</div>
+					{% endif %}
+					{% endfor %}
+				</div>
+				<div class="row mt-5">
+					<div class="col text-center">
+						<div class="mt-5">
+							<ul class="carousel-indicators">
+								{% for a in numArray %}
+								<li data-target="#multi-item2" data-slide-to="{{a}}"
+									class="{% if forloop.first %} active {% endif %}"><span>{{ forloop.counter }}</span>
+								</li>
+								{% endfor %}
+							</ul>
+						</div>
+					</div>
+				</div>
+			</div>
+	</section>
+
+	<!-- GALERIA -->
+
+	<section id="galeria" class="ftco-section gallery-section">
+		<img src="{% static 'img/background/blob-shape-3.svg' %}" class="svg-blob-2" alt="Burbuja" />
+		<div class="container">
+			<div class="row justify-content-center">
+				<div class="col-md-7 text-center heading-section ftco-animate">
+					<h2>GALERIA</h2>
+				</div>
+			</div>
+			<div class="row ftco-animate justify-content-center">
+				<div class="col-md-10">
+					<div id="slide" class="carousel slide s-bd mt-5" data-ride="carousel">
+						<div class="carousel-inner">
+							{% for imagenes in galerias %}
+							<div class="carousel-item {% if forloop.counter == 1 %} active {% endif %} gal-img">
+								<img src="{{MEDIA_URL}}{{imagenes.imagen}}" alt="{{imagenes.titulo}}" width="900"
+									height="200">
+							</div>
+							{% endfor %}
+						</div>
+						<a class="carousel-control-prev" data-target="#slide" data-slide="prev">
+							<span class="carousel-control-prev-icon"></span>
+						</a>
+						<a class="carousel-control-next" data-target="#slide" data-slide="next">
+							<span class="carousel-control-next-icon"></span>
+						</a>
+					</div>
+				</div>
+			</div>
+		</div>
+	</section>
+
+	<!-- BLOG -->
+
+	<section class="ftco-section blog-section" id="blog-section">
+		<div class="container">
+			<div class="row justify-content-center pb-5">
+				<div class="col-md-7 heading-section text-center ftco-animate">
+					<h2>BLOG</h2>
+				</div>
+			</div>
+			<div class="row d-flex">
+				{% for blog in blog|slice:":3" %}
+				<div class="col-md-6 col-lg-4 d-flex ftco-animate">
+					<div class="blog-entry justify-content-end">
+						<a href="{% url 'appweb:singleBlog' blog.id %}" class="block-20"
+							style="background-image: url({{MEDIA_URL}}{{blog.imagen}});">
+						</a>
+						<div class="text float-right d-block">
+							<div class="d-flex align-items-center pt-2 mb-4 topp">
+								<div class="one mr-2">
+									<span class="day">{{blog.fecha|date:"d"}}</span>
+								</div>
+								<div class="two">
+									<span class="mos">{{blog.fecha|date:"F"}}</span>
+									<span class="yr">{{blog.fecha|date:"Y"}}</span>
+								</div>
+							</div>
+							<h3 class="heading">
+								{{blog.titulo}}
+							</h3>
+							<p>
+								{{blog.descripcion|truncatechars:100}}
+							</p>
+							<div class="d-flex align-items-center mt-4 meta">
+								<p class="mb-0">
+									<a href="{% url 'appweb:singleBlog' blog.id %}" class="btn btn-primary">Leer más
+									</a>
+								</p>
+							</div>
+						</div>
+					</div>
+				</div>
+				{% endfor %}
+			</div>
+			<div class="d-flex justify-content-end meta">
+				<p class="mb-0"><a href="{% url 'appweb:blogs' %}" class="btn btn-primary">Todas las publicaciones </a>
+				</p>
+			</div>
+		</div>
+	</section>
+	<!-- OPINIONES -->
+
+	<section id="opiniones" class="ftco-section testimony-section">
+		<img src="{% static 'img/background/blob-shape-2d.svg' %}" class="svg-blob-2" alt="Burbuja Morada" />
+
+		<img src="{% static 'img/background/blob-shape-2e.svg' %}" class="svg-blob-3" alt="Burbuja Verde" />
+
+		<div class="container">
+			<div class="row justify-content-center">
+				<div class="col-md-7 text-center heading-section heading-section-white ftco-animate">
+					<h2>OPINIONES</h2>
+				</div>
+			</div>
+			<div class="row ftco-animate justify-content-center mt-5">
+				<div class="col-md-12">
+					<div class="carousel-testimony owl-carousel ftco-owl">
+						{% for opi in opiniones %}
+						<div class="item">
+							<div class="testimony-wrap text-center py-4 pb-5">
+								<div class="text px-4 ">
+									<p class="mb-4">
+										“ {{opi.descripcion}} ”
+									</p>
+									<p class="name">{{opi.nombre}}</p>
+								</div>
+							</div>
+						</div>
+						{% endfor %}
+					</div>
+				</div>
+			</div>
+		</div>
+	</section>
+	<!-- CONTACTO -->
+
+	<section id="contacto" class="ftco-section contact-section ftco-no-pb" id="contact-section">
+		<div class="container">
+			<div class="row justify-content-center pb-5">
+				<div class="col-md-7 heading-section text-center ftco-animate">
+					<h2>CONTÁCTAME</h2>
+				</div>
+			</div>
+			<div class="row block-9">
+
+				<!-- LADO DERECHO -->
+				<div class="col-md-7 order-md-last d-flex">
+					<form method="POST" class="bg-light p-4 p-md-5 contact-form ftco-animate">
+						{% csrf_token %}
+						<div class="form-group">
+							{{form.nombre}}
+						</div>
+						<div class="form-group">
+							{{form.email}}
+						</div>
+						<div class="form-group">
+							{{form.asunto}}
+						</div>
+						<div class="form-group">
+							{{form.mensaje}}
+						</div>
+						<div class="actions">
+							<input type="submit" value="Enviar" class="btn btn-primary py-3 px-5" />
+						</div>
+					</form>
+				</div>
+
+				<!-- LADO IZQUIERDO -->
+				<div class="col-md-5 d-flex">
+					<div class="row d-flex contact-info mb-5">
+						{% for datos in contacto %}
+						<div class="col-md-12 ftco-animate">
+							<div class="box p-2 px-3 bg-light d-flex">
+								<div class="icon mr-3">
+									<span class="flaticon-add-user"><i
+											class="flaticon-email-open-sketched-envelope"></i></span>
+								</div>
+								<div>
+									<h3 class="mb-3">Dirección</h3>
+									<p>{{datos.direccion}}</p>
+								</div>
+							</div>
+						</div>
+						<div class="col-md-12 ftco-animate">
+							<div class="box p-2 px-3 bg-light d-flex">
+								<div class="icon mr-3">
+									<span class="flaticon-add-user"><i
+											class="flaticon-phone-auricular-hand-drawn-outline"></i></span>
+								</div>
+								<div>
+									<h3 class="mb-3">Móvil</h3>
+									<p>{{datos.telefono}}</p>
+								</div>
+							</div>
+						</div>
+						<div class="col-md-12 ftco-animate">
+							<div class="box p-2 px-3 bg-light d-flex">
+								<div class="icon mr-3">
+									<span class="flaticon-add-user">
+										<i
+											class="flaticon-email-new-envelope-closed-back-hand-drawn-outline"></i></span>
+								</div>
+								<div>
+									<h3 class="mb-3">Correo Electrónico</h3>
+									<p><a href="mailto: {{contactoInfo.email}} ">{{datos.email}}</a></p>
+								</div>
+							</div>
+						</div>
+						{% endfor %}
+					</div>
+				</div>
+			</div>
+		</div>
+	</section>
+
+</body>
+{% endblock content %}
